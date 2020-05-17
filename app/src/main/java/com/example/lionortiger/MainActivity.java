@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         One,Two, No
     }
-
+    int i;
     Player currentplayer = Player.One;
     Player playerchoices[] = new Player[9];
     int[][] winnerrowscolumns = {{0,1,2},{3,4,5},{6,7,8},          //rows
@@ -58,24 +58,34 @@ public class MainActivity extends AppCompatActivity {
             if (currentplayer == Player.One) {
                 tappedimageview.setImageResource(R.drawable.lion);
                 currentplayer = Player.Two;
+                i++;
             } else if (currentplayer == Player.Two) {
                 tappedimageview.setImageResource(R.drawable.tiger);
                 currentplayer = Player.One;
+                i++;
             }
             tappedimageview.animate().translationXBy(2000).alpha(1).rotationY(1800).setDuration(2000);
             //Toast.makeText(this, tappedimageview.getTag().toString(), Toast.LENGTH_SHORT);
 
             for (int[] winnercolumns : winnerrowscolumns) {
 
-                if (playerchoices[winnercolumns[0]] == playerchoices[winnercolumns[1]] &&
+                if ((playerchoices[winnercolumns[0]] == playerchoices[winnercolumns[1]] &&
                         playerchoices[winnercolumns[1]] == playerchoices[winnercolumns[2]] &&
-                        playerchoices[winnercolumns[0]] != Player.No) {
+                        playerchoices[winnercolumns[0]] != Player.No)||i>=8) {
+                    if(playerchoices[winnercolumns[0]] == playerchoices[winnercolumns[1]] &&
+                            playerchoices[winnercolumns[1]] == playerchoices[winnercolumns[2]] &&
+                            playerchoices[winnercolumns[0]] != Player.No){
                         reset.setVisibility(View.VISIBLE);
                         gameover=true;
                     if (currentplayer == Player.One) {
                         Toast.makeText(this, "Player Two won!", Toast.LENGTH_LONG).show();
                     } else if (currentplayer == Player.Two) {
                         Toast.makeText(this, "Player One won!", Toast.LENGTH_LONG).show();
+                    }
+                    } else if(i>=8) {
+                        reset.setVisibility(View.VISIBLE);
+                        gameover=true;
+                        Toast.makeText(this, "Its a draw!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -104,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         playerchoices[8] = Player.No;
 
         gameover = false;
+        i = 0;
 
     }
 }
